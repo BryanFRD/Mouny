@@ -3,10 +3,17 @@
   "title": "Mouny JDR",
   "description": "Mouny JDR",
   "version": "0.0.1",
-  "author": "BryanFRD",
+  "authors": {
+    "name": "BryanFRD",
+    "url": "https://github.com/BryanFRD"
+  },
   "esmodules": ["mouny.mjs"],
   "styles": "styles/main.css",
-  "url": "https://github.com/BryanFRD/Mouny/",
+  "url": "https://github.com/BryanFRD/Mouny",
   "manifest": "https://raw.githubusercontent.com/BryanFRD/Mouny/master/system.json",
-  "download": "https://github.com/BryanFRD/Mouny/releases/download/0.0.1/Mouny-0.0.1.zip"
+  "download": "https://github.com/BryanFRD/Mouny/releases/download/0.0.1/Mouny-0.0.1.zip",
+  "documentTypes": {
+    "Actor": {},
+    "Item": {}
+  }
 }
