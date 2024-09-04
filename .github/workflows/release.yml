@@ -37,16 +37,15 @@ jobs:
     # Create a new release with the version from the system.json
     - name: Create Release
       id: create_release
-      uses: actions/create-release@v1
+      uses: ncipollo/release-action@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.manifest.outputs.version }}
-        release_name: Release ${{ steps.manifest.outputs.version }}
+        release_name: ${{ steps.manifest.outputs.version }}
         body: |
-          Changes in this Release:
-          - Added new feature
-          - Fixed bug
+          ## Changes
+          - Added the ability to change the download link in the system.json
         draft: false
         prerelease: false
     
