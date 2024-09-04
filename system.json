@@ -2,7 +2,7 @@
   "id": "Mouny",
   "title": "Mouny JDR",
   "description": "Mouny JDR",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "esmodules": [
     "mouny.mjs"
   ],
