@@ -50,25 +50,18 @@ jobs:
           echo "Version is different from the latest release tag"
         fi
           
-    # Update the download link in the system.json with the new version
-    - name: Update download link
+    # Stop the workflow if the download link is not updated to the new version in the system.json
+    - name: Check if download link is updated
       run: |
-        jq --arg version "${{ steps.manifest.outputs.version }}" '.download = "https://github.com/BryanFRD/Mouny/releases/download/" + $version +"/Mouny-" + $version + ".zip"' system.json > system.json.tmp
-        mv system.json.tmp system.json
-        
-    # Create a new release with the version from the system.json
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.manifest.outputs.version }}
-        release_name: Release ${{ steps.manifest.outputs.version }}
-        body: |
-          Release ${{ steps.manifest.outputs.version }}
-        draft: false
-        prerelease: false
+        VERSION="${{ steps.manifest.outputs.version }}"
+        DOWNLOAD_LINK=$(jq -r '.download' system.json)
+        EXPECTED_DOWNLOAD_LINK="https://github.com/BryanFRD/Mouny/releases/download/$VERSION/Mouny-$VERSION.zip"
+        if [ "$DOWNLOAD_LINK" != "$EXPECTED_DOWNLOAD_LINK" ]; then
+          echo "Download link is not updated to the new version in the system.json"
+          exit 1
+        else
+          echo "Download link is updated to the new version in the system.json"
+        fi
     
     # Upload the release asset
     - name: Upload Release Asset
@@ -77,7 +70,6 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./Mouny-${{ steps.manifest.outputs.version }}.zip
         asset_name: Mouny-${{ steps.manifest.outputs.version }}.zip
         asset_content_type: application/zip
