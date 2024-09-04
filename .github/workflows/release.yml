@@ -20,11 +20,13 @@ jobs:
         file_path: './system.json'
   
     # Compare the version in the system.json with the latest tag
-    - name: Compare Version
+    - name: Compare version
       id: compare_version
       run: |
+        echo "Version: ${{ steps.manifest.outputs.version }}"
+        echo "Ref: ${{ github.ref }}"
         if [ "${{ steps.manifest.outputs.version }}" == "${{ github.ref }}" ]; then
-          echo "Version in system.json is the same as the latest tag"
+          echo "Version is already up to date"
           exit 1
         fi
     
@@ -37,15 +39,14 @@ jobs:
     # Create a new release with the version from the system.json
     - name: Create Release
       id: create_release
-      uses: ncipollo/release-action@v1
+      uses: actions/create-release@v4
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.manifest.outputs.version }}
-        release_name: ${{ steps.manifest.outputs.version }}
+        release_name: Release ${{ steps.manifest.outputs.version }}
         body: |
-          ## Changes
-          - Added the ability to change the download link in the system.json
+          Release ${{ steps.manifest.outputs.version }}
         draft: false
         prerelease: false
     
