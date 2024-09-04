@@ -15,7 +15,7 @@
   ],
   "url": "https://github.com/BryanFRD/Mouny",
   "manifest": "https://raw.githubusercontent.com/BryanFRD/Mouny/master/system.json",
-  "download": "https://github.com/BryanFRD/Mouny/releases/download/0.0.3/Mouny-0.0.3.zip",
+  "download": "https://github.com/BryanFRD/Mouny/releases/download/0.0.4/Mouny-0.0.4.zip",
   "documentTypes": {
     "Actor": {},
     "Item": {}
