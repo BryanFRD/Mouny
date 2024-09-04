@@ -20,6 +20,9 @@ jobs:
         file_path: './system.json'
   
     # Compare the version in the system.json with the latest release tag
+    - name: Checkout the repository
+      uses: actions/checkout@v3
+    
     - name: Compare version
       id: get_release
       uses: actions/github-script@v6
