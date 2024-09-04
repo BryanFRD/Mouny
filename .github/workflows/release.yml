@@ -19,14 +19,12 @@ jobs:
       with:
         file_path: './system.json'
   
-    # Gets the version from remote system.json and compares it to the local system.json
-    - name: Check for version change
-      id: version
+    # Compare the version in the system.json with the latest tag
+    - name: Compare Version
+      id: compare_version
       run: |
-        echo "Remote version: ${{ steps.manifest.outputs.version }}"
-        echo "Local version: $(jq -r '.version' system.json)"
-        if [ "${{ steps.manifest.outputs.version }}" == "$(jq -r '.version' system.json)" ]; then
-          echo "No version change detected. Exiting."
+        if [ "${{ steps.manifest.outputs.version }}" == "${{ github.ref }}" ]; then
+          echo "Version in system.json is the same as the latest tag"
           exit 1
         fi
     
