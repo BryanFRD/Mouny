@@ -8,5 +8,5 @@
   "styles": "styles/main.css",
   "url": "https://github.com/BryanFRD/Mouny/",
   "manifest": "https://raw.githubusercontent.com/BryanFRD/Mouny/master/system.json",
-  "download": "https://raw.githubusercontent.com/BryanFRD/releases/download/release-0.0.1/release-0.0.1.zip"
+  "download": "https://github.com/BryanFRD/Mouny/releases/download/0.0.1/Mouny-0.0.1.zip"
 }
