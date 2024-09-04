@@ -19,17 +19,34 @@ jobs:
       with:
         file_path: './system.json'
   
-    # Compare the version in the system.json with the latest tag
+    # Compare the version in the system.json with the latest release tag
     - name: Compare version
-      id: compare_version
-      run: |
-        echo "Version: ${{ steps.manifest.outputs.version }}"
-        echo "Ref: ${{ github.ref }}"
-        if [ "${{ steps.manifest.outputs.version }}" == "${{ github.ref }}" ]; then
-          echo "Version is already up to date"
-          exit 1
-        fi
+      id: get_release
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const latestRelease = const await github.repos.getLatestRelease({
+            owner: context.repo.owner,
+            repo: context.repo.repo
+          });
+          return latestRelease;
     
+    - name: Print Latest Release Details
+      run: |
+        echo "Latest release tag: ${{ steps.get_release.outputs.tag_name }}"
+          echo "Latest release name: ${{ steps.get_release.outputs.name }}"
+          echo "Latest release body: ${{ steps.get_release.outputs.body }}"
+      
+    # Check if the version in the system.json is the same as the latest release tag
+    - name: Check if version is the same
+      run: |
+        if [ "${{ steps.manifest.outputs.version }}" == "${{ steps.get_release.outputs.tag_name }}" ]; then
+          echo "Version is the same as the latest release tag"
+          exit 1
+        else
+          echo "Version is different from the latest release tag"
+        fi
+          
     # Update the download link in the system.json with the new version
     - name: Update download link
       run: |
