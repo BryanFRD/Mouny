@@ -71,7 +71,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ steps.manifest.outputs.version }}
-        release_name: ${{ steps.manifest.outputs.version }}
+        release_name: release-${{ steps.manifest.outputs.version }}
         body: |
           **Full Changelog**: https://github.com/BryanFRD/Mouny/compare/${{ steps.get_release.outputs.tag_name }}...${{ steps.manifest.outputs.version }}
         draft: false
