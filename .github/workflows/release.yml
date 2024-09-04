@@ -1,0 +1,65 @@
+name: Release Creation
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    # Load the system.json manifest into memory
+    - name: Load system manifest
+      id: manifest
+      uses: zoexx/github-action-json-file-properties@release
+      with:
+        file_path: './system.json'
+  
+    # Gets the version from remote system.json and compares it to the local system.json
+    - name: Check for version change
+      id: version
+      run: |
+        echo "Remote version: ${{ steps.manifest.outputs.version }}"
+        echo "Local version: $(jq -r '.version' system.json)"
+        if [ "${{ steps.manifest.outputs.version }}" == "$(jq -r '.version' system.json)" ]; then
+          echo "No version change detected. Exiting."
+          exit 1
+        fi
+    
+    # Update the download link in the system.json with the new version
+    - name: Update download link
+      run: |
+        jq --arg version "${{ steps.manifest.outputs.version }}" '.download = "https://github.com/BryanFRD/Mouny/releases/download/" + $version +"/Mouny-" + $version + ".zip"' system.json > system.json.tmp
+        mv system.json.tmp system.json
+        
+    # Create a new release with the version from the system.json
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.manifest.outputs.version }}
+        release_name: Release ${{ steps.manifest.outputs.version }}
+        body: |
+          Changes in this Release:
+          - Added new feature
+          - Fixed bug
+        draft: false
+        prerelease: false
+    
+    # Upload the release asset
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./Mouny-${{ steps.manifest.outputs.version }}.zip
+        asset_name: Mouny-${{ steps.manifest.outputs.version }}.zip
+        asset_content_type: application/zip
