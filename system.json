@@ -3,6 +3,10 @@
   "title": "Mouny JDR",
   "description": "Mouny JDR",
   "version": "0.0.2",
+  "compatibility": {
+    "minimum": 12,
+    "verified": 12
+  },
   "esmodules": [
     "mouny.mjs"
   ],
