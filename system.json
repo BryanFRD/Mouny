@@ -1,50 +1,12 @@
 {
-  "id": "mouny",
-  "title": "Mouny",
-  "description": "JDR Mouny",
-  "version": "1.0.0",
-  "compatibility": {
-    "minimum": 12,
-    "verified": 12
-  },
-  "authors": [
-    {
-      "name": "Bryan"
-    }
-  ],
-  "esmodules": ["mouny.js"],
+  "id": "Mouny",
+  "title": "Mouny JDR",
+  "description": "Mouny JDR",
+  "version": "0.0.1",
+  "author": "BryanFRD",
+  "esmodules": ["mouny.mjs"],
   "styles": "styles/main.css",
-  "packs": [{
-    "name": "monsters",
-    "label": "Monstres",
-    "type": "Actor"
-  }, {
-    "name": "items",
-    "label": "Items",
-    "type": "Item"
-  }],
-  "languages": [{
-    "lang": "fr",
-    "name": "Français",
-    "path": "lang/fr.json"
-  }],
-  "documentTypes": {
-    "Actor": {
-      "hero": { "htmlFields": ["background.biography"] },
-      "villain": { "htmlFields": ["background.biography"] },
-      "pawn": {}
-    },
-    "Item": {
-      "weapon": {},
-      "armor": {}
-    }
-  },
-  "socket": true,
-  "initiative": "1d20",
-  "grid": {
-    "distance": 10,
-    "units": "m"
-  },
-  "primaryTokenAttribute": "resources.health",
-  "secondaryTokenAttribute": "resources.power"
+  "url": "https://github.com/BryanFRD/Mouny/",
+  "manifest": "https://raw.githubusercontent.com/BryanFRD/Mouny/master/system.json",
+  "download": "https://raw.githubusercontent.com/BryanFRD/releases/download/release-0.0.1/release-0.0.1.zip"
 }
